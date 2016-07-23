@@ -6,7 +6,10 @@ browserSync = require('browser-sync').create(),
 minifyCss = require('gulp-minify-css'),
 htmlmin = require('gulp-htmlmin'),
 imagemin = require('gulp-imagemin'),
-clean = require('gulp-clean');
+clean = require('gulp-clean'),
+browserify = require('gulp-browserify');
+//如果要让“不兼容Browserify”（其实是不兼容CommonJS）的JavaScript模块（如插件）也能为Browserify所用
+//var browserifyShim = require('browserify-shim');
 
 //编译压缩sass 
 gulp.task('sass', function () {
@@ -43,18 +46,21 @@ gulp.task('minifyHtml', function() {
 
 // 压缩js
 gulp.task('uglifyJs', function() {
-    gulp.src('src/js/*.js')
+    gulp.src(['src/js/index.js','src/js/index_1.js'])
+        .pipe(browserify())
         .pipe(uglify())
+        .pipe(concat('main.js'))
         .pipe(gulp.dest('dist/js'));
         
 });
 
-// 压缩并合并js
 gulp.task('concatJs', function() {
-    gulp.src('src/js/*.js')
+    gulp.src(['src/js/index.js','src/js/index_1.js'])
+        .pipe(browserify())
         .pipe(uglify())
         .pipe(concat('main.js'))
         .pipe(gulp.dest('dist/js'));
+        
 });
 
 gulp.task('clean', function () {
@@ -88,7 +94,7 @@ gulp.task('watch', function() {
     });
 });
 
-//如果需要合并css和js的话运行gulp concat
+//如果需要合并css的话运行gulp concat
 gulp.task('concat',['clean','concatCss','concatJs','imagemin','minifyHtml','watch']);
 
 //否则只需运行gulp

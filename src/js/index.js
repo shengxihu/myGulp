@@ -1,5 +1,2 @@
-alert("msg");
-function init(argument) {
-	alert("msg");
-}
-init();
+var foo = require("./test");
+foo()
