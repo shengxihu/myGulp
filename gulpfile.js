@@ -46,7 +46,7 @@ gulp.task('minifyHtml', function() {
 
 // 压缩js
 gulp.task('uglifyJs', function() {
-    gulp.src(['src/js/index.js','src/js/index_1.js'])
+    gulp.src(['src/js/index.js'])
         .pipe(browserify())
         .pipe(uglify())
         .pipe(concat('main.js'))
@@ -55,7 +55,7 @@ gulp.task('uglifyJs', function() {
 });
 
 gulp.task('concatJs', function() {
-    gulp.src(['src/js/index.js','src/js/index_1.js'])
+    gulp.src(['src/js/index.js'])
         .pipe(browserify())
         .pipe(uglify())
         .pipe(concat('main.js'))
